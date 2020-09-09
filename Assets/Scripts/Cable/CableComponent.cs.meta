@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a526a02d00c331244a4d4bc1e3c2f772
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - endPoint: {instanceID: 0}
+  - cableMaterial: {fileID: -876546973899608171, guid: 2b47790263f656c419ddf6a2125a87ac,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
