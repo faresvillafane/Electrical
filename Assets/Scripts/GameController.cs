@@ -139,9 +139,11 @@ public class GameController : MonoBehaviour
 
     public void SetSnapCollider(bool bActive)
     {
+        float iSize = (bActive)? 5: 1/5f;
+
         for(int i = 0; i < scenarioObjects.Length; i++)
         {
-            scenarioObjects[i].GetComponent<ScenarioObject>().GetMetaCollider().enabled = bActive;
+            scenarioObjects[i].GetComponentInChildren<Connector>().GetComponent<SphereCollider>().radius *= iSize;
 
         }
     }

@@ -8,6 +8,8 @@ TagManager:
   - Input
   - Undefined
   - Connector
+  - CableStart
+  - CableEnd
   layers:
   - Default
   - TransparentFX

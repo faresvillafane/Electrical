@@ -16,8 +16,10 @@ MonoBehaviour:
   levelName: Tutorial
   description: tuto
   levelDifficulty: 0
-  levelBuild: 0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+  levelBuild: 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1
   objRotation:
   - {x: -0, y: 90, z: -0}
+  - {x: 0, y: 270, z: 0}
   - {x: -0, y: 90, z: -0}
+  - {x: 0, y: 270, z: 0}
   MaxSize: 5

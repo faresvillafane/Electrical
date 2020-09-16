@@ -40,7 +40,16 @@ public class TouchManager : MonoBehaviour
                    // hit.collider.GetComponent<ScenarioObject>().HandleClick();
                     //gc.StartLevel(int.Parse(hit.transform.name));
                 }
-                
+                else if (hitD.collider.tag == EConstants.TAG_CABLE_START)
+                {
+                    print("TOUCHED CONNECTOR");
+                    
+                    if (!hit.collider.GetComponent<CableComponent>().GetEndPoint().GetComponent<Connector>().IsFree())
+                    {
+                        hit.collider.GetComponent<CableComponent>().GetEndPoint().GetComponent<Connector>().BreakConnection();
+                    }
+                    
+                }
             }
         }
     }

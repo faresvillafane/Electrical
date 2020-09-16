@@ -10,8 +10,6 @@ public class ScenarioObject : MonoBehaviour
     public Vector3 v3Offset = Vector3.zero;
     protected GameController gameController;
     public Connector[] connectors;
-    protected Collider cSnapCollider;
-
 
     public Connector GetFirstFreeConnector()
     {
@@ -28,7 +26,6 @@ public class ScenarioObject : MonoBehaviour
 
     public void Start()
     {
-        cSnapCollider = GetComponents<Collider>()[1];
     }
 
     public void SetLevelReference(GameController gc)
@@ -45,11 +42,6 @@ public class ScenarioObject : MonoBehaviour
     public void HandleClick()
     {
 
-    }
-
-    public Collider GetMetaCollider()
-    {
-        return cSnapCollider;
     }
 
 }

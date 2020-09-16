@@ -91,8 +91,9 @@ public class CableComponent : MonoBehaviour
 	void InitLineRenderer()
 	{
 		line = this.gameObject.AddComponent<LineRenderer>();
-		line.SetWidth(cableWidth, cableWidth);
-		line.SetVertexCount(segments + 1);
+		line.endWidth = cableWidth = line.startWidth = cableWidth;
+		line.positionCount = segments + 1;
+
 		line.material = cableMaterial;
 		line.GetComponent<Renderer>().enabled = true;
 	}
@@ -233,7 +234,11 @@ public class CableComponent : MonoBehaviour
 			}
 		}
 	}
+	public Transform GetEndPoint()
+    {
+		return endPoint;
 
+	}
 	/**
 	 * TODO: I'll implement this constraint to reinforce cable stiffness 
 	 * 

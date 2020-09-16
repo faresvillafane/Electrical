@@ -21,9 +21,9 @@ public class CameraManager : MonoBehaviour
 
     public GameController gc;
 
-    private float MAX_ANGLE_ROTATION = 30;
+   // private float MAX_ANGLE_ROTATION = 30;
 
-    private float fCurrentAngleRotation = 0;
+    //private float fCurrentAngleRotation = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -36,7 +36,7 @@ public class CameraManager : MonoBehaviour
     
     public void PlaceCamera(int iMaxSize, GameObject goCenterTile)
     {
-        fCurrentAngleRotation = 0;
+       // fCurrentAngleRotation = 0;
         this.transform.position = goCenterTile.transform.position + new Vector3(0, iMaxSize * .6f, -iMaxSize * .6f);
         transform.LookAt(goCenterTile.transform.position);
         this.goCenterTile = goCenterTile;

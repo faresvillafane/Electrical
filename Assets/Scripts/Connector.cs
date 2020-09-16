@@ -9,6 +9,8 @@ using UnityEngine;
 public class Connector : MonoBehaviour
 
 {
+
+    private Vector3 v3StartingPos;
     private Vector3 mOffset;
 
     private float mZCoord;
@@ -19,11 +21,15 @@ public class Connector : MonoBehaviour
 
     private GameController gameController;
 
-    private ScenarioObject soConnectedTo;
+    private Connector cConnectedTo;
+
+    public GameObject goCableStart;
+
    // private Plane p;
     private void Awake()
     {
-        cableComponent = GetComponentInParent<CableComponent>();
+        cableComponent = goCableStart.GetComponent<CableComponent>();
+        v3StartingPos = this.transform.localPosition;
         gameController = GameObject.FindGameObjectWithTag(EConstants.TAG_GAMECONTROLLER).GetComponent<GameController>();
     }
 
@@ -92,16 +98,17 @@ public class Connector : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                if (EUtils.IsScenarioObject(hit.collider.tag) && hit.collider.gameObject != this.transform.parent.transform.parent.gameObject)
-                {
-                    this.transform.position = hit.collider.GetComponent<ScenarioObject>().GetFirstFreeConnector().transform.position;
-                }
-                else if (hit.collider.CompareTag(EConstants.TAG_CONNECTOR) && hit.collider.gameObject != this)
+                if (ShouldConnect(hit.collider.gameObject))
                 {
                     this.transform.position = hit.collider.transform.position;
                 }
             }
         }
+    }
+
+    private bool ShouldConnect(GameObject goCollider)
+    {
+        return goCollider.CompareTag(EConstants.TAG_CABLE_END) && goCollider != this.gameObject && goCollider.GetComponent<Connector>().IsFree() && this.IsFree();
     }
 
     private void OnMouseUp()
@@ -113,17 +120,10 @@ public class Connector : MonoBehaviour
         {
             if(hit.collider != null)
             {
-                if (EUtils.IsScenarioObject(hit.collider.tag) && hit.collider.gameObject != this.transform.parent.transform.parent.gameObject)
-                {
-                    this.transform.position = hit.collider.GetComponent<ScenarioObject>().GetFirstFreeConnector().transform.position;
-
-                    SetConnections(hit.collider.GetComponentInChildren<Connector>(), hit.collider.GetComponent<ScenarioObject>());
-                }
-                else if(hit.collider.CompareTag(EConstants.TAG_CONNECTOR) && hit.collider.gameObject != this)
+                if (ShouldConnect(hit.collider.gameObject))
                 {
                     this.transform.position = hit.collider.transform.position;
-                    SetConnections(hit.collider.GetComponent<Connector>(), hit.collider.GetComponentInParent<ScenarioObject>());
-
+                    SetConnections(hit.collider.GetComponent<Connector>());
                 }
                 else
                 {
@@ -142,28 +142,40 @@ public class Connector : MonoBehaviour
         gameController.SetSnapCollider(false);
     }
 
-    private void SetConnections(Connector connector, ScenarioObject soConnected)
+    private void SetConnections(Connector connector)
     {
-        connector.SetConnection(this.GetComponentInParent<ScenarioObject>());
-        this.SetConnection(soConnected);
+        connector.SetConnection(this);
+        this.SetConnection(connector);
     }
 
-    private void ResetCable()
+    public void ResetCable()
     {
-        this.transform.localPosition = Vector3.zero;
+        this.transform.localPosition = v3StartingPos;
         cableComponent.Delete();
-
+        goCableStart.GetComponent<Collider>().enabled = false;
+        this.GetComponent<Collider>().enabled = true;
     }
 
-    public void SetConnection(ScenarioObject newSO)
+    public void SetConnection(Connector newConnector)
     {
         bBeingUsed = true;
-        soConnectedTo = newSO;
+        cConnectedTo = newConnector;
+        goCableStart.GetComponent<Collider>().enabled = true;
+        this.GetComponent<Collider>().enabled = false;
     }
     public void BreakConnection()
     {
+        BreakConnectionTo();
+        ResetCable();
         bBeingUsed = false;
-        soConnectedTo = null;
+        cConnectedTo = null;
+    }
+    public void BreakConnectionTo()
+    {
+        cConnectedTo.cConnectedTo = null;
+        cConnectedTo.bBeingUsed = false;
+        cConnectedTo.goCableStart.GetComponent<Collider>().enabled = false;
+        cConnectedTo.GetComponent<Collider>().enabled = true;
     }
     public bool IsFree()
     {

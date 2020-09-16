@@ -11,6 +11,8 @@ public class EConstants
     public const string TAG_OUTPUT          = "Output";
     public const string TAG_AND             = "AND";
     public const string TAG_CONNECTOR       = "Connector";
+    public const string TAG_CABLE_START     = "CableStart";
+    public const string TAG_CABLE_END       = "CableEnd";
     public const string TAG_GAMECONTROLLER  = "GameController";
     
 
