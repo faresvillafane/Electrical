@@ -11,6 +11,18 @@ public class ScenarioObject : MonoBehaviour
     protected GameController gameController;
     public Connector[] connectors;
 
+    public bool bStartOn = false;
+
+    public bool bIsLit = false;
+
+    public Material litMaterial, unlitMaterial;
+
+    public Renderer[] rToLit;
+
+    public Light lLight;
+
+    private bool bLastLitMode = false;
+
     public Connector GetFirstFreeConnector()
     {
         Connector cRes = null;
@@ -24,14 +36,29 @@ public class ScenarioObject : MonoBehaviour
         return connectors[0];
     }
 
-    public void Start()
+    public void Update()
     {
+        if(bIsLit != bLastLitMode)
+        {
+            SetLitActive(bIsLit);
+        }
+    }
+
+    public void Awake()
+    {
+        SetLitActive(bStartOn);
     }
 
     public void SetLevelReference(GameController gc)
     {
         gameController = gc;
     }
+
+    public virtual bool ShouldLit()
+    {
+        return false;
+    }
+
 
 
 
@@ -42,6 +69,36 @@ public class ScenarioObject : MonoBehaviour
     public void HandleClick()
     {
 
+    }
+    public void SetLitActive(bool bActive)
+    {
+        bLastLitMode = bIsLit = bActive;
+        if (bActive)
+        {
+            Lit();
+        }
+        else
+        {
+           Unlit();
+        }
+    }
+    private void Lit()
+    {
+        lLight.enabled = true;
+        for(int i = 0; i < rToLit.Length; i++)
+        {
+            rToLit[i].material = litMaterial;
+        }
+    }
+
+    private void Unlit()
+    {
+        lLight.enabled = false;
+
+        for (int i = 0; i < rToLit.Length; i++)
+        {
+            rToLit[i].material = unlitMaterial;
+        }
     }
 
 }

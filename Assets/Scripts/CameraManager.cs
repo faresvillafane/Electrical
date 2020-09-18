@@ -37,7 +37,7 @@ public class CameraManager : MonoBehaviour
     public void PlaceCamera(int iMaxSize, GameObject goCenterTile)
     {
        // fCurrentAngleRotation = 0;
-        this.transform.position = goCenterTile.transform.position + new Vector3(0, iMaxSize * .6f, -iMaxSize * .6f);
+        this.transform.position = goCenterTile.transform.position + new Vector3(0, iMaxSize * .8f, -iMaxSize * .8f);
         transform.LookAt(goCenterTile.transform.position);
         this.goCenterTile = goCenterTile;
     }
@@ -62,7 +62,7 @@ public class CameraManager : MonoBehaviour
                     transform.RotateAround(goCenterTile.transform.position, Vector3.up, Input.GetAxis("Mouse X") * xSpeed);
                  //   fCurrentAngleRotation = fCalcNextRotation;
                 }
-                //transform.RotateAround(goCenterTile.transform.position, transform.right, -Input.GetAxis("Mouse Y") * xSpeed);
+                //transform.RotateAround(goCenterTile.transform.position, Vector3.right, -Input.GetAxis("Mouse Y") * xSpeed);
 
             }
             

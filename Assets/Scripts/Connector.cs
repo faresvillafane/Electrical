@@ -25,31 +25,44 @@ public class Connector : MonoBehaviour
 
     public GameObject goCableStart;
 
-   // private Plane p;
+    private float START_RADIUS = .3f;
+    private float SNAP_RADIUS = 1f;
+
+    // private Plane p;
     private void Awake()
     {
         cableComponent = goCableStart.GetComponent<CableComponent>();
         v3StartingPos = this.transform.localPosition;
         gameController = GameObject.FindGameObjectWithTag(EConstants.TAG_GAMECONTROLLER).GetComponent<GameController>();
     }
-
-    public void HandleMouseDown()
+    public float GetRadius(bool bSnapping)
     {
-        gameController.SetSnapCollider(true);
-       
-        //p = new Plane(transform.up, transform.position);
-            
-        cableComponent.Init();
-        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-
-        // Store offset = gameobject world pos - mouse world pos
-
-        mOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+        return (bSnapping) ? SNAP_RADIUS : START_RADIUS;
     }
-
     void OnMouseDown()
     {
         HandleMouseDown();
+    }
+
+    public void HandleMouseDown()
+    {
+        if (IsFree())
+        {
+            gameController.SetSnapCollider(true);
+       
+            //p = new Plane(transform.up, transform.position);
+            
+            cableComponent.Init();
+            mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+            this.GetComponent<Collider>().enabled = false;
+            // Store offset = gameobject world pos - mouse world pos
+
+            mOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+        }
+        else
+        {
+            cConnectedTo.BreakConnection();
+        }
     }
 
 
@@ -89,20 +102,27 @@ public class Connector : MonoBehaviour
     void OnMouseDrag()
     {
 
-        transform.position = GetMouseAsWorldPoint() + mOffset;
+        //transform.position = GetMouseAsWorldPoint() + mOffset;
+        bool bSettedPos = false;
         Ray ray;
         RaycastHit hit;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit))
         {
+            //print(hit.collider.name);
             if (hit.collider != null)
             {
                 if (ShouldConnect(hit.collider.gameObject))
                 {
                     this.transform.position = hit.collider.transform.position;
+                    bSettedPos = true;
                 }
             }
+        }
+        if (!bSettedPos)
+        {
+            transform.position = GetMouseAsWorldPoint() + mOffset;
         }
     }
 
@@ -113,6 +133,7 @@ public class Connector : MonoBehaviour
 
     private void OnMouseUp()
     {
+        print("MOUSEUP");
         Ray ray;
         RaycastHit hit;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -144,8 +165,8 @@ public class Connector : MonoBehaviour
 
     private void SetConnections(Connector connector)
     {
-        connector.SetConnection(this);
         this.SetConnection(connector);
+        connector.SetConnection(this, false);
     }
 
     public void ResetCable()
@@ -156,12 +177,12 @@ public class Connector : MonoBehaviour
         this.GetComponent<Collider>().enabled = true;
     }
 
-    public void SetConnection(Connector newConnector)
+    public void SetConnection(Connector newConnector, bool bMain = true)
     {
         bBeingUsed = true;
         cConnectedTo = newConnector;
-        goCableStart.GetComponent<Collider>().enabled = true;
-        this.GetComponent<Collider>().enabled = false;
+        goCableStart.GetComponent<Collider>().enabled = bMain;
+        this.GetComponent<Collider>().enabled = !bMain;
     }
     public void BreakConnection()
     {

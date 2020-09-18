@@ -143,7 +143,7 @@ public class GameController : MonoBehaviour
 
         for(int i = 0; i < scenarioObjects.Length; i++)
         {
-            scenarioObjects[i].GetComponentInChildren<Connector>().GetComponent<SphereCollider>().radius *= iSize;
+            scenarioObjects[i].GetComponentInChildren<Connector>().GetComponent<SphereCollider>().radius = scenarioObjects[i].GetComponentInChildren<Connector>().GetRadius(bActive);
 
         }
     }
