@@ -46,7 +46,7 @@ public class EUtils : MonoBehaviour
 
     public static bool IsScenarioObject(EEnums.TileType tt)
     {
-        return (tt == EEnums.TileType.INPUT || tt == EEnums.TileType.OUTPUT || tt == EEnums.TileType.AND);
+        return (tt == EEnums.TileType.GENERATOR || tt == EEnums.TileType.RECEIVER || tt == EEnums.TileType.AND);
     }
 
     public static bool IsScenarioObject(string sTag)

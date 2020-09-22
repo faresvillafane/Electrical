@@ -21,12 +21,16 @@ public class Connector : MonoBehaviour
 
     private GameController gameController;
 
-    private Connector cConnectedTo;
+    public Connector cConnectedTo;
 
     public GameObject goCableStart;
 
     private float START_RADIUS = .3f;
     private float SNAP_RADIUS = 1f;
+
+    public bool bIsLit = false;
+
+    public EEnums.ConnectorType ctType = EEnums.ConnectorType.INPUT;
 
     // private Plane p;
     private void Awake()
@@ -101,34 +105,36 @@ public class Connector : MonoBehaviour
 
     void OnMouseDrag()
     {
-
-        //transform.position = GetMouseAsWorldPoint() + mOffset;
-        bool bSettedPos = false;
-        Ray ray;
-        RaycastHit hit;
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit))
+        if (IsFree())
         {
-            //print(hit.collider.name);
-            if (hit.collider != null)
+            //transform.position = GetMouseAsWorldPoint() + mOffset;
+            bool bSettedPos = false;
+            Ray ray;
+            RaycastHit hit;
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
             {
-                if (ShouldConnect(hit.collider.gameObject))
+                //print(hit.collider.name);
+                if (hit.collider != null)
                 {
-                    this.transform.position = hit.collider.transform.position;
-                    bSettedPos = true;
+                    if (ShouldConnect(hit.collider.gameObject))
+                    {
+                        this.transform.position = hit.collider.transform.position;
+                        bSettedPos = true;
+                    }
                 }
             }
-        }
-        if (!bSettedPos)
-        {
-            transform.position = GetMouseAsWorldPoint() + mOffset;
+            if (!bSettedPos)
+            {
+                transform.position = GetMouseAsWorldPoint() + mOffset;
+            }
         }
     }
 
     private bool ShouldConnect(GameObject goCollider)
     {
-        return goCollider.CompareTag(EConstants.TAG_CABLE_END) && goCollider != this.gameObject && goCollider.GetComponent<Connector>().IsFree() && this.IsFree();
+        return goCollider.CompareTag(EConstants.TAG_CABLE_END) && goCollider != this.gameObject && goCollider.GetComponent<Connector>().IsFree() && this.IsFree() && ctType != goCollider.GetComponent<Connector>().ctType;
     }
 
     private void OnMouseUp()
@@ -145,6 +151,7 @@ public class Connector : MonoBehaviour
                 {
                     this.transform.position = hit.collider.transform.position;
                     SetConnections(hit.collider.GetComponent<Connector>());
+                    gameController.ManageNewConnections();
                 }
                 else
                 {
@@ -186,15 +193,25 @@ public class Connector : MonoBehaviour
     }
     public void BreakConnection()
     {
+
         BreakConnectionTo();
         ResetCable();
+        if (ctType == EEnums.ConnectorType.INPUT)
+        {
+            bIsLit = false;
+        }
         bBeingUsed = false;
         cConnectedTo = null;
+        gameController.ManageNewConnections();
     }
     public void BreakConnectionTo()
     {
         cConnectedTo.cConnectedTo = null;
         cConnectedTo.bBeingUsed = false;
+        if(cConnectedTo.ctType == EEnums.ConnectorType.INPUT)
+        {
+            cConnectedTo.bIsLit = false;
+        }
         cConnectedTo.goCableStart.GetComponent<Collider>().enabled = false;
         cConnectedTo.GetComponent<Collider>().enabled = true;
     }
@@ -203,4 +220,12 @@ public class Connector : MonoBehaviour
         return !bBeingUsed;
     }
 
+    public void Lit()
+    {
+        bIsLit = true;
+    }
+    public void Unlit()
+    {
+        bIsLit = false;
+    }
 }

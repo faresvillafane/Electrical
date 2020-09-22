@@ -89,10 +89,10 @@ public class LevelEditor : MonoBehaviour
                 GameObject goToInstantiate = null;
                 switch (tiles[i].GetComponent<Tile>().ttTile)
                 {
-                    case EEnums.TileType.INPUT:
+                    case EEnums.TileType.GENERATOR:
                         goToInstantiate = prefInput;
                         break;
-                    case EEnums.TileType.OUTPUT:
+                    case EEnums.TileType.RECEIVER:
                         goToInstantiate = prefOutput;
                         break;
                     case EEnums.TileType.AND:

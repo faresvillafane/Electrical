@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public int iCurrentLevel = 0;
 
     public GameObject[] scenarioObjects;
+    public List<GameObject> goGenerators;
 
     public bool bInLevel = false;
 
@@ -145,6 +146,39 @@ public class GameController : MonoBehaviour
         {
             scenarioObjects[i].GetComponentInChildren<Connector>().GetComponent<SphereCollider>().radius = scenarioObjects[i].GetComponentInChildren<Connector>().GetRadius(bActive);
 
+        }
+    }
+
+    public void ManageNewConnections()
+    {
+        for(int i = 0; i < goGenerators.Count; i++)
+        {
+            Connector cOut = goGenerators[i].GetComponent<ScenarioObject>().connectorOutput;
+
+            ConnectorLight(cOut);
+        }
+
+        ManageAllConnections();
+    }
+
+    public void ManageAllConnections()
+    {
+        for (int i = 0; i < scenarioObjects.Length; i++)
+        {
+            scenarioObjects[i].GetComponent<ScenarioObject>().ShouldLit();
+        }
+    }
+
+    public void ConnectorLight(Connector inConnector)
+    {
+        if (inConnector.cConnectedTo != null)
+        {
+            inConnector.cConnectedTo.bIsLit = inConnector.bIsLit;
+            //inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().ShouldLit();
+            if (inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().connectorOutput != null)
+            {
+                ConnectorLight(inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().connectorOutput);
+            }
         }
     }
 

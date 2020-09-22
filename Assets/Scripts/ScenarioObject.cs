@@ -9,9 +9,10 @@ public class ScenarioObject : MonoBehaviour
 
     public Vector3 v3Offset = Vector3.zero;
     protected GameController gameController;
-    public Connector[] connectors;
 
-    public bool bStartOn = false;
+    public Connector connectorOutput;
+    public Connector[] connectorsInput;
+
 
     public bool bIsLit = false;
 
@@ -23,19 +24,6 @@ public class ScenarioObject : MonoBehaviour
 
     private bool bLastLitMode = false;
 
-    public Connector GetFirstFreeConnector()
-    {
-        Connector cRes = null;
-        for(int i = 0; i < connectors.Length && cRes == null; i++)
-        {
-            if (connectors[i].IsFree())
-            {
-                cRes = connectors[i];
-            }
-        }
-        return connectors[0];
-    }
-
     public void Update()
     {
         if(bIsLit != bLastLitMode)
@@ -46,7 +34,7 @@ public class ScenarioObject : MonoBehaviour
 
     public void Awake()
     {
-        SetLitActive(bStartOn);
+        ShouldLit();
     }
 
     public void SetLevelReference(GameController gc)
@@ -54,12 +42,10 @@ public class ScenarioObject : MonoBehaviour
         gameController = gc;
     }
 
-    public virtual bool ShouldLit()
+    public virtual void ShouldLit()
     {
-        return false;
+        print("SHOULD LIT SCENARIO OBJECT");
     }
-
-
 
 
     public virtual void Interact(bool bBumperRight, bool bBumperLeft)
@@ -94,11 +80,12 @@ public class ScenarioObject : MonoBehaviour
     private void Unlit()
     {
         lLight.enabled = false;
-
+        print("unlit");
         for (int i = 0; i < rToLit.Length; i++)
         {
             rToLit[i].material = unlitMaterial;
         }
     }
+
 
 }

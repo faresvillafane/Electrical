@@ -35,7 +35,7 @@ public class LevelBuilder : MonoBehaviour
         int iObjectPlacementNumber = 0;
         string[] sLevelObjects = curLevel.levelBuild.Split(EConstants.LEVEL_SEPARATOR);
         gameController.scenarioObjects = new GameObject[curLevel.objRotation.Length];
-        for(int x = 0; x < curLevel.MaxSize; x++)
+        for (int x = 0; x < curLevel.MaxSize; x++)
         {
             for (int z = 0; z < curLevel.MaxSize; z++)
             {
@@ -50,10 +50,10 @@ public class LevelBuilder : MonoBehaviour
                 GameObject goToInstantiate = null;
                 switch ((EEnums.TileType) int.Parse(sLevelObjects[index]))
                 {
-                    case EEnums.TileType.INPUT:
+                    case EEnums.TileType.GENERATOR:
                         goToInstantiate = goInput;
                         break;
-                    case EEnums.TileType.OUTPUT:
+                    case EEnums.TileType.RECEIVER:
                         goToInstantiate = goOutput;
                         break;
                     case EEnums.TileType.AND:
@@ -67,6 +67,10 @@ public class LevelBuilder : MonoBehaviour
                     goNewObj.transform.SetParent(this.transform);
                     goNewObj.GetComponent<ScenarioObject>().SetLevelReference(gameController);
                     gameController.scenarioObjects[iObjectPlacementNumber] = goNewObj;
+                    if (goToInstantiate == goInput)
+                    {
+                        gameController.goGenerators.Add(goNewObj);
+                    }
 
                     goNewObj.transform.rotation = Quaternion.Euler(curLevel.objRotation[iObjectPlacementNumber]);
                     goNewObj.name += iObjectPlacementNumber;

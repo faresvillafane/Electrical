@@ -4,8 +4,26 @@ using UnityEngine;
 
 public class Generator : ScenarioObject
 {
-    public override bool ShouldLit()
+    public bool bStartOn = false;
+
+    public override void ShouldLit()
     {
-        return true;
+        //connectorOutput.bIsLit = connectorOutput.bIsLit;
+
+        print("GENERATOR SHOULD LIT");
     }
+
+    private new void Awake()
+    {
+        base.Awake();
+        connectorOutput.bIsLit = bIsLit = bStartOn;
+    }
+
+
+    void OnMouseDown()
+    {
+        connectorOutput.bIsLit = bIsLit = !bIsLit;
+        gameController.ManageNewConnections();
+    }
+
 }
