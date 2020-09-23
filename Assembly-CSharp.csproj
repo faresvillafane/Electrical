@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AND.cs" />
     <Compile Include="Assets\Scripts\Cable\CableComponent.cs" />
     <Compile Include="Assets\Scripts\Cable\CableParticle.cs" />
     <Compile Include="Assets\Scripts\CameraManager.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Assets\Scripts\LevelEditor\LevelEditor.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\SelectParent.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\Tile.cs" />
+    <Compile Include="Assets\Scripts\NOT.cs" />
     <Compile Include="Assets\Scripts\Receiver.cs" />
     <Compile Include="Assets\Scripts\ScenarioObject.cs" />
     <Compile Include="Assets\Scripts\TouchManager.cs" />

@@ -312,9 +312,34 @@ MonoBehaviour:
     type: 3}
   prefOutput: {fileID: 1666107313716287309, guid: 2c7b3a648cd7b4041a90c42e9190d07c,
     type: 3}
-  prefAND: {fileID: 3823466275365090372, guid: 6108bd378e3991c44b90095114fa832b, type: 3}
-  iTileSize: 5
+  prefAND: {fileID: 5134716715132540794, guid: 600b9f478b2d0d94aa58b0e43a527206, type: 3}
+  prefNOT: {fileID: 694120681748971729, guid: a656f4af461126b4ab1aa10a502c99df, type: 3}
+  iTileSize: 7
   tiles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -747,6 +772,12 @@ MonoBehaviour:
   scenarioObjects: []
   goGenerators: []
   bInLevel: 0
+  litMaterial: {fileID: 2100000, guid: b1fe3ce7172e2824888feb03e09e9511, type: 2}
+  unlitMaterial: {fileID: 2100000, guid: 2c34ebae19e063c44b95b1f8ecccc51b, type: 2}
+  DisconnectedMaterial: {fileID: 2100000, guid: 37fa2b69a25272a438ecbd188221cfda,
+    type: 2}
+  clrLit: {r: 0.9056604, g: 0.7503763, b: 0.49982202, a: 1}
+  clrUnlit: {r: 0.046991818, g: 0.08865738, b: 0.3018868, a: 1}
 --- !u!114 &2051999473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,7 +794,8 @@ MonoBehaviour:
   goInput: {fileID: 3823466275365090372, guid: 6108bd378e3991c44b90095114fa832b, type: 3}
   goOutput: {fileID: 1666107313716287309, guid: 2c7b3a648cd7b4041a90c42e9190d07c,
     type: 3}
-  goAND: {fileID: 3823466275365090372, guid: 6108bd378e3991c44b90095114fa832b, type: 3}
+  goAND: {fileID: 5134716715132540794, guid: 600b9f478b2d0d94aa58b0e43a527206, type: 3}
+  goNOT: {fileID: 694120681748971729, guid: a656f4af461126b4ab1aa10a502c99df, type: 3}
   levels:
   - {fileID: 11400000, guid: 130b8e43a5d2fd54281487df397c7fd5, type: 2}
   cameraManager: {fileID: 963194229}

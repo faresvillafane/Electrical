@@ -46,12 +46,12 @@ public class EUtils : MonoBehaviour
 
     public static bool IsScenarioObject(EEnums.TileType tt)
     {
-        return (tt == EEnums.TileType.GENERATOR || tt == EEnums.TileType.RECEIVER || tt == EEnums.TileType.AND);
+        return (tt == EEnums.TileType.GENERATOR || tt == EEnums.TileType.RECEIVER || tt == EEnums.TileType.AND || tt == EEnums.TileType.NOT);
     }
 
     public static bool IsScenarioObject(string sTag)
     {
-        return (sTag == EConstants.TAG_INPUT || sTag == EConstants.TAG_OUTPUT || sTag == EConstants.TAG_AND);
+        return (sTag == EConstants.TAG_INPUT || sTag == EConstants.TAG_OUTPUT || sTag == EConstants.TAG_AND || sTag == EConstants.TAG_NOT);
     }
 
 }

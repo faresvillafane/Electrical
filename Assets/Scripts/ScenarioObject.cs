@@ -14,29 +14,33 @@ public class ScenarioObject : MonoBehaviour
     public Connector[] connectorsInput;
 
 
-    public bool bIsLit = false;
-
-    public Material litMaterial, unlitMaterial;
 
     public Renderer[] rToLit;
 
-    public Light lLight;
-
+    public Light[] lLights;
+    /*
+    public bool bIsLit = false;
     private bool bLastLitMode = false;
+    */
+    public EEnums.LitType ltLitType = EEnums.LitType.NOT_CONNECTED;
+    private EEnums.LitType eltLitTypePrevious = EEnums.LitType.NOT_CONNECTED;
+
 
     public void Update()
     {
-        if(bIsLit != bLastLitMode)
+        if(ltLitType != eltLitTypePrevious)
         {
-            SetLitActive(bIsLit);
+            SetLitActive(ltLitType);
         }
     }
 
     public void Awake()
     {
+    }
+    public void Start()
+    {
         ShouldLit();
     }
-
     public void SetLevelReference(GameController gc)
     {
         gameController = gc;
@@ -56,36 +60,100 @@ public class ScenarioObject : MonoBehaviour
     {
 
     }
-    public void SetLitActive(bool bActive)
+    public void SetLitActive(EEnums.LitType ltNewLit)
     {
-        bLastLitMode = bIsLit = bActive;
-        if (bActive)
+        eltLitTypePrevious = ltLitType = ltNewLit;
+        if (ltNewLit == EEnums.LitType.LIT)
         {
             Lit();
         }
-        else
+        else if (ltNewLit == EEnums.LitType.UNLIT)
         {
            Unlit();
         }
+        else
+        {
+            Disconnect();
+
+        }
     }
+    private void Disconnect()
+    {
+        SetLitStatus(false, gameController.DisconnectedMaterial, gameController.clrUnlit);
+    }
+
     private void Lit()
     {
-        lLight.enabled = true;
-        for(int i = 0; i < rToLit.Length; i++)
-        {
-            rToLit[i].material = litMaterial;
-        }
+        SetLitStatus(true, gameController.litMaterial, gameController.clrLit);
     }
 
     private void Unlit()
     {
-        lLight.enabled = false;
-        print("unlit");
+        SetLitStatus(true, gameController.unlitMaterial, gameController.clrUnlit);
+    }
+
+    private void SetLitStatus(bool bActive, Material mat, Color clr)
+    {
+        SetLightsActive(bActive, clr);
+        ChangeAllLitMaterials(mat);
+    }
+    private void SetLightsActive(bool bEnabled, Color clr)
+    {
+        for(int i = 0; i< lLights.Length; i++)
+        {
+            ChangeLitLight(lLights[i], bEnabled, clr);
+        }
+    }
+    private void ChangeAllLitMaterials(Material mat)
+    {
         for (int i = 0; i < rToLit.Length; i++)
         {
-            rToLit[i].material = unlitMaterial;
+            ChangeLitRenderer(rToLit[i], mat);
         }
     }
 
+    protected void ChangeLitRenderer(Renderer rToLit, Material mLit)
+    {
+        rToLit.material = mLit;
+    }
 
+    protected void ChangeLitLight( Light lToLit, bool bEnabled, Color clr)
+    {
+        lToLit.enabled = bEnabled;
+        lToLit.color = clr;
+    }
+
+    public bool IsLit()
+    {
+        return ltLitType == EEnums.LitType.LIT;
+    }
+
+
+    protected bool IsConnected()
+    {
+        bool bRes = false;
+
+        for(int i = 0; i < connectorsInput.Length && !bRes; i++)
+        {
+            bRes |= connectorsInput[i].cConnectedTo != null;
+        }
+        return bRes;
+    }
+
+    protected EEnums.LitType CurrentLitType(bool bShouldLit)
+    {
+        EEnums.LitType ltRes = EEnums.LitType.NOT_CONNECTED;
+        if (IsConnected())
+        {
+            if (bShouldLit)
+            {
+                ltRes = EEnums.LitType.LIT;
+            }
+            else
+            {
+                ltRes = EEnums.LitType.UNLIT;
+            }
+        }
+        return ltRes;
+    }
 }

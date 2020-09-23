@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour
     private const float REGISTER_PRESS_IN = .25f;
     private float fButtonPressTime = 0;
 
+    public Material litMaterial, unlitMaterial, DisconnectedMaterial;
+    public Color clrLit, clrUnlit;
     void Start()
     {
         canvas.SetActive(true);
@@ -174,7 +176,7 @@ public class GameController : MonoBehaviour
         if (inConnector.cConnectedTo != null)
         {
             inConnector.cConnectedTo.bIsLit = inConnector.bIsLit;
-            //inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().ShouldLit();
+            inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().ShouldLit();
             if (inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().connectorOutput != null)
             {
                 ConnectorLight(inConnector.cConnectedTo.GetComponentInParent<ScenarioObject>().connectorOutput);

@@ -9,7 +9,7 @@ using UnityEditor.SceneManagement;
 public class LevelEditor : MonoBehaviour
 {
     private Transform tContainer;
-    public GameObject prefEditorTile, prefInput, prefOutput, prefAND;
+    public GameObject prefEditorTile, prefInput, prefOutput, prefAND, prefNOT;
 
     [Range(7,50)]
     public int iTileSize = 5;
@@ -97,6 +97,9 @@ public class LevelEditor : MonoBehaviour
                         break;
                     case EEnums.TileType.AND:
                         goToInstantiate = prefAND;
+                        break;
+                    case EEnums.TileType.NOT:
+                        goToInstantiate = prefNOT;
                         break;
                 }
 

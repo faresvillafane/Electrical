@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class Generator : ScenarioObject
 {
-    public bool bStartOn = false;
+    public EEnums.LitType ltStartOn = EEnums.LitType.LIT;
 
     public override void ShouldLit()
     {
-        //connectorOutput.bIsLit = connectorOutput.bIsLit;
-
+        //AL SER RECEIVER NO TIENE INPUT
         print("GENERATOR SHOULD LIT");
     }
 
     private new void Awake()
     {
         base.Awake();
-        connectorOutput.bIsLit = bIsLit = bStartOn;
+        ltLitType = ltStartOn;
+        connectorOutput.bIsLit = IsLit();
     }
 
 
     void OnMouseDown()
     {
-        connectorOutput.bIsLit = bIsLit = !bIsLit;
+        connectorOutput.bIsLit = !connectorOutput.bIsLit;
+        ltLitType = (ltLitType == EEnums.LitType.LIT) ? EEnums.LitType.UNLIT : EEnums.LitType.LIT;
+
         gameController.ManageNewConnections();
     }
 

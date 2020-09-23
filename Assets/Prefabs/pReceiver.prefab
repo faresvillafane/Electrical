@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5314774571680686390}
   m_Layer: 0
   m_Name: pReceiver
-  m_TagString: Input
+  m_TagString: Output
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,13 +99,12 @@ MonoBehaviour:
   connectorOutput: {fileID: 0}
   connectorsInput:
   - {fileID: 3205850972419232275}
-  bIsLit: 0
-  litMaterial: {fileID: 2100000, guid: b1fe3ce7172e2824888feb03e09e9511, type: 2}
-  unlitMaterial: {fileID: 2100000, guid: 37fa2b69a25272a438ecbd188221cfda, type: 2}
   rToLit:
   - {fileID: 3219615443960423796}
   - {fileID: 5452838969358933905}
-  lLight: {fileID: 9056750285852435522}
+  lLights:
+  - {fileID: 9056750285852435522}
+  ltLitType: 2
 --- !u!1 &4012323813645665441
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +428,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d76d0b433369f184d979439c97ad07a3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.044
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d76d0b433369f184d979439c97ad07a3,
         type: 3}

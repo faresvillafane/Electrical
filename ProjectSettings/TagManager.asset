@@ -10,6 +10,8 @@ TagManager:
   - Connector
   - CableStart
   - CableEnd
+  - NOT
+  - AND
   layers:
   - Default
   - TransparentFX

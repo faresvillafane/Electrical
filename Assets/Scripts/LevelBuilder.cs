@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelBuilder : MonoBehaviour
 {
     
-    public GameObject goTile, goInput, goOutput, goAND;
+    public GameObject goTile, goInput, goOutput, goAND, goNOT;
     public LevelData[] levels;
 
 
@@ -42,9 +42,10 @@ public class LevelBuilder : MonoBehaviour
                 GameObject goNewTile = Instantiate(goTile, new Vector3(x, 0.4f, z), Quaternion.identity);
                 goNewTile.transform.SetParent(this.transform);
                 int index = EUtils.MatrixIndexesToListIndex(x, z, curLevel.MaxSize);
-                
+                goNewTile.name += index.ToString();
                 if (index == (curLevel.MaxSize * curLevel.MaxSize) / 2)
                 {
+                    print(index);
                     cameraManager.PlaceCamera(curLevel.MaxSize, goNewTile);
                 }
                 GameObject goToInstantiate = null;
@@ -58,6 +59,9 @@ public class LevelBuilder : MonoBehaviour
                         break;
                     case EEnums.TileType.AND:
                         goToInstantiate = goAND;
+                        break;
+                    case EEnums.TileType.NOT:
+                        goToInstantiate = goNOT;
                         break;
                 }
 
