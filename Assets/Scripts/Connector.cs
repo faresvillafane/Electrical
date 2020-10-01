@@ -228,4 +228,9 @@ public class Connector : MonoBehaviour
     {
         bIsLit = false;
     }
+
+    public ScenarioObject GetScenarioObject()
+    {
+        return this.GetComponentInParent<ScenarioObject>();
+    }
 }

@@ -135,9 +135,46 @@ public class ScenarioObject : MonoBehaviour
 
         for(int i = 0; i < connectorsInput.Length && !bRes; i++)
         {
-            bRes |= connectorsInput[i].cConnectedTo != null;
+            bRes |= IsConnected(connectorsInput[i].cConnectedTo);
         }
         return bRes;
+    }
+
+    protected bool IsConnected(Connector c)
+    {
+        if(c == null)
+        {
+            return false;
+        }
+        else if (c.GetComponentInParent<Generator>() != null)
+        {
+            return true;
+        }
+        else //if(c.cConnectedTo != null)
+        {
+            if(c.ctType == EEnums.ConnectorType.INPUT)
+            {
+                return IsConnected(c.cConnectedTo);
+            }
+            else
+            {
+                if(c.GetComponentInParent<ScenarioObject>().connectorsInput.Length > 0)
+                {
+                    bool bRes = false;
+                    for (int i = 0; i < c.GetComponentInParent<ScenarioObject>().connectorsInput.Length && !bRes; i++)
+                    {
+                        bRes |= IsConnected(c.GetComponentInParent<ScenarioObject>().connectorsInput[i]);
+                    }
+                    return bRes;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+        }
+        
     }
 
     protected EEnums.LitType CurrentLitType(bool bShouldLit)
